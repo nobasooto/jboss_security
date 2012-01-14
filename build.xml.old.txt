@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project default="all" name="jboss_security">
+
+    <property environment="env"/>
+
+    <property name="JBOSS_HOME" value="${env.JBOSS_HOME}"/>
+
+    <property name="out.dir" value="${basedir}/out/production/jboss_security"/>
+    <property name="web-inf.dir" value="${out.dir}/WEB-INF"/>
+
+    <target name="all" depends="deploy"/>
+
+    <target name="init">
+    </target>
+
+    <target name="build" depends="init">
+        <jar destfile="${basedir}/HelloWorld.war" basedir="${out.dir}/"/>
+    </target>
+
+    <target name="deploy" depends="build">
+        <copy file="${basedir}/HelloWorld.war" todir="${JBOSS_HOME}/server/default/deploy" />
+    </target>
+
+</project>

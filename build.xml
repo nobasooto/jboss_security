@@ -1,24 +1,194 @@
-<?xml version="1.0"?>
-<project default="all" name="jboss_security">
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jboss_security" default="all">
 
-    <property environment="env"/>
 
-    <property name="JBOSS_HOME" value="${env.JBOSS_HOME}"/>
+  <!--<property file="build.properties"/>-->
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  
+  <!-- Global Libraries -->
+  
+  
+  <!-- Application Server Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module jboss_security -->
+  
+  <dirname property="module.jboss_security.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.jboss_security" value="${compiler.args}"/>
+  
+  <property name="jboss_security.output.dir" value="${module.jboss_security.basedir}/out/production/jboss_security"/>
+  <property name="jboss_security.testoutput.dir" value="${module.jboss_security.basedir}/out/test/jboss_security"/>
 
-    <property name="src.dir" value="${basedir}/src"/>
-    <property name="web-inf.dir" value="${src.dir}/WEB-INF"/>
 
-    <target name="all" depends="deploy"/>
+  <path id="jboss_security.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="jboss_security.module.production.classpath">
+    <pathelement location="${basedir}/lib/javaee-api-6.0.jar"/>
+  </path>
+  
+  <path id="jboss_security.runtime.production.module.classpath">
+    <pathelement location="${jboss_security.output.dir}"/>
+    <pathelement location="${basedir}/lib/javaee-api-6.0.jar"/>
+  </path>
+  
+  <path id="jboss_security.module.classpath">
+    <pathelement location="${jboss_security.output.dir}"/>
+    <pathelement location="${basedir}/lib/javaee-api-6.0.jar"/>
+  </path>
+  
+  <path id="jboss_security.runtime.module.classpath">
+    <pathelement location="${jboss_security.testoutput.dir}"/>
+    <pathelement location="${jboss_security.output.dir}"/>
+    <pathelement location="${basedir}/lib/javaee-api-6.0.jar"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.jboss_security">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.jboss_security">
+    <patternset refid="excluded.from.module.jboss_security"/>
+  </patternset>
+  
+  <path id="jboss_security.module.sourcepath">
+    <dirset dir="${module.jboss_security.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.jboss_security" depends="compile.module.jboss_security.production,compile.module.jboss_security.tests" description="Compile module jboss_security"/>
+  
+  <target name="compile.module.jboss_security.production" description="Compile module jboss_security; production classes">
+    <mkdir dir="${jboss_security.output.dir}"/>
+    <javac destdir="${jboss_security.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.jboss_security}"/>
+      <bootclasspath refid="jboss_security.module.bootclasspath"/>
+      <classpath refid="jboss_security.module.production.classpath"/>
+      <src refid="jboss_security.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.jboss_security"/>
+    </javac>
+    
+    <copy todir="${jboss_security.output.dir}">
+      <fileset dir="${module.jboss_security.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.jboss_security.tests" depends="compile.module.jboss_security.production" description="compile module jboss_security; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.jboss_security" description="cleanup module">
+    <delete dir="${jboss_security.output.dir}"/>
+    <delete dir="${jboss_security.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.jboss_security" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.jboss_security" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.helloworld" value="${basedir}/out/artifacts/HelloWorld"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.HelloWorld.war" value="${artifacts.temp.dir}/HelloWorld.war"/>
+  </target>
+  
+  <target name="artifact.helloworld" depends="init.artifacts, compile.module.jboss_security" description="Build &#39;HelloWorld&#39; artifact">
+    <property name="artifact.temp.output.helloworld" value="${artifacts.temp.dir}/HelloWorld"/>
+    <mkdir dir="${artifact.temp.output.helloworld}"/>
+    <zip destfile="${temp.jar.path.HelloWorld.war}">
+      <zipfileset file="${basedir}/META-INF/MANIFEST.MF" prefix="META-INF"/>
+      <zipfileset dir="${jboss_security.output.dir}" prefix="WEB-INF/classes"/>
+      <zipfileset file="${basedir}/WEB-INF/jboss-web.xml" prefix="WEB-INF"/>
+      <zipfileset file="${basedir}/WEB-INF/web.xml" prefix="WEB-INF"/>
+      <zipfileset dir="${basedir}/web" prefix="web"/>
+    </zip>
+    <copy file="${temp.jar.path.HelloWorld.war}" tofile="${artifact.temp.output.helloworld}/HelloWorld.war"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.helloworld" description="Build all artifacts">
+    <mkdir dir="${artifact.output.helloworld}"/>
+    <copy todir="${artifact.output.helloworld}">
+      <fileset dir="${artifact.temp.output.helloworld}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
 
-    <target name="init">
-    </target>
-
-    <target name="build" depends="init">
-        <jar destfile="${basedir}/HelloWorld.war" basedir="${src.dir}/"/>
-    </target>
-
-    <target name="deploy" depends="build">
-        <copy file="${basedir}/HelloWorld.war" todir="${JBOSS_HOME}/server/default/deploy" />
-    </target>
+  <target name="deploy" depends="build.modules, build.all.artifacts">
+    <property name="JBOSS_HOME" value="C:/java/jboss-6.0.0.Final"/>
+    <copy file="${basedir}/out/artifacts/HelloWorld/HelloWorld.war" todir="${JBOSS_HOME}/server/default/deploy" />
+  </target>
 
 </project>
