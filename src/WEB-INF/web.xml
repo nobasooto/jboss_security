@@ -1,10 +1,10 @@
 <web-app>
 
-    <display-name>rest</display-name>
+    <display-name>test</display-name>
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Rest API</web-resource-name>
+            <web-resource-name>Test API</web-resource-name>
             <url-pattern>/restricted/*</url-pattern>
         </web-resource-collection>
 
@@ -13,15 +13,21 @@
         </auth-constraint>
     </security-constraint>
 
-    <login-config>
-        <auth-method>FORM</auth-method>
-        <realm-name>Rest API</realm-name>
+    <!--<login-config>-->
+        <!--<auth-method>FORM</auth-method>-->
+        <!--<realm-name>Test API</realm-name>-->
 
-        <form-login-config>
-            <form-login-page>/login.html</form-login-page>
-            <form-error-page>/login-error.html</form-error-page>
-        </form-login-config>
+        <!--<form-login-config>-->
+            <!--<form-login-page>/login.html</form-login-page>-->
+            <!--<form-error-page>/login-error.html</form-error-page>-->
+        <!--</form-login-config>-->
+    <!--</login-config>-->
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>Test API</realm-name>
     </login-config>
+
 
     <security-role>
         <role-name>user</role-name>
