@@ -1,5 +1,0 @@
--- Jar all .jsp files and deployment descriptor(s) in WEB.INF:
-jar -cvf HelloWorld.war *.jsp WEB-INF/
-
--- Deploy the .war file to the web container
-
